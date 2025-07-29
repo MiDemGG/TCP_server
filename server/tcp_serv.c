@@ -3,7 +3,7 @@
 
 int main(){
     int fd, res, opt;
-    struct sockaddr_in add_port;
+    struct sockaddr_in addr;
 
     // номер файлового дескриптора связанного с созданным сокетом
     // -1 при ошибке
@@ -13,15 +13,16 @@ int main(){
         return 0;
     }
     printf("%d \n", fd);
-/*
-    // addressing family
-    add_port.sin_family = AF_INET;
-    // sets the port number in the "network byte order"
-    add_port.sin_port = 10101;
-    // ip address
-    add_port.sin_addr = INADDR_ANY;
-    res = bind(fd, (struct sockaddr*)&add_port, sizeof(add_port));
 
+    // addressing family
+    addr.sin_family = AF_INET;
+    // sets the port number in the "network byte order"
+    addr.sin_port = htons(10101);
+    // ip address
+    addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    //Снабдит сокет адресом ( идентификатор сокет )
+    bind(fd, (struct sockaddr*)&addr, sizeof(addr));
+
+    printf("%i %i %i \n", addr.sin_family, addr.sin_port, addr.sin_addr.s_addr);
     return 0;
-*/
 }
