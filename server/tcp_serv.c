@@ -1,21 +1,23 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
 
-int main(){
-    // файловый дескриптор сокета, 
-    int fd, err_bind;
-    struct sockaddr_in addr;
-
+void create_socket_TCP(int *fd){
     // номер файлового дескриптора связанного с созданным сокетом
-    // -1 при ошибке
-    fd = socket(AF_INET, SOCK_STREAM, 0);
-    if ( fd == -1 ){
+    *fd = socket(AF_INET, SOCK_STREAM, 0);
+    if ( *fd == -1 ){
         printf("Не создался сокет");
-        return 0;
+        exit(0);
     }
-    printf("%d \n", fd);
 
+    printf("Файловый дескриптор сокета под номером %d \n", *fd);
+}
+
+void bind_socket_TCP(int *fd){
+    int err_bind;
+
+    struct sockaddr_in addr;
     // addressing family
     addr.sin_family = AF_INET;
     // sets the port number in the "network byte order"
@@ -23,13 +25,25 @@ int main(){
     //                           принимает соединения на этот порт на любом из
     // ip address                имеющихся в системе ip-адресов
     addr.sin_addr.s_addr = htonl(INADDR_ANY);
+
     //Снабдит сокет адресом ( идентификатор сокет )
-    err_bind = bind(fd, (struct sockaddr*)&addr, sizeof(addr));
+    err_bind = bind(*fd, (struct sockaddr*)&addr, sizeof(addr));
     if ( err_bind == -1) {
         printf("Не сработал bind \n");
-        return 0;
+        exit(0);
     }
-    printf("%i %i %i \n", addr.sin_family, addr.sin_port, addr.sin_addr.s_addr);
+
+    // printf("%i %i %i \n", addr.sin_family, addr.sin_port, addr.sin_addr.s_addr);
+}
+
+int main(){
+    // файловый дескриптор сокета
+    int fd;
+
+    // создаем сокет
+    create_socket_TCP(&fd);
+    // снабжаем адресом
+    bind_socket_TCP(&fd);
 
     // размер очереди непринятых запросов на соединение
     int qlen = 10;
@@ -48,6 +62,6 @@ int main(){
         printf("Ошибка в accept \n");
         return 0;
     }
-    
+
     return 0;
 }
