@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <netinet/in.h>
+#include <unistd.h>
+#include <string.h>
 
 #include "socket_TCP.h"
 
@@ -51,6 +53,12 @@ int main(){
         printf("Ошибка в accept \n");
         return 0;
     }
+    printf("Файловый дескриптор потока ввода-вывода с клиентом %i \n", fd_socket_accept);
 
+    char text[79];
+    if ( read(fd_socket_accept, text, 79) == -1 ) {
+        printf("Ошибка read \n");
+    }
+    printf("%s \n", text);
     return 0;
 }

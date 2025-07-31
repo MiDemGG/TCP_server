@@ -2,6 +2,8 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <unistd.h>
+#include <string.h>
 
 
 #include "socket_TCP.h"
@@ -21,6 +23,10 @@ int main(){
         printf("Не сработал запрос на соединение");
         exit(0);
     }
-    
+    char *text = "mess: ok\0";
+    if ( write(fd, text, strlen(text)) == -1){
+        printf("Ошибка write \n");
+        return 0;
+    }
     return 0;
 }
