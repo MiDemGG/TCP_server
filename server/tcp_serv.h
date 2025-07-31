@@ -12,13 +12,14 @@
 */
 
 // защитные макросы ( sentry macros )
-#ifndef SOCKET_TCP_H_SENTRY
-#define SOCKET_TCP_H_SENTRY
+#ifndef TCP_SERV_H_SENTRY
+#define TCP_SERV_H_SENTRY
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+#include <string.h>
 
-void create_socket_TCP(int *fd);
+#include "socket_TCP.h"
 
 #endif

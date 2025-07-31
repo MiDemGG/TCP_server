@@ -1,11 +1,6 @@
-#include <stdio.h>
-#include <netinet/in.h>
-#include <unistd.h>
-#include <string.h>
+#include "tcp_serv.h"
 
-#include "socket_TCP.h"
-
-void bind_socket_TCP(int *fd){
+static void bind_socket_TCP(int *fd){
     int err_bind;
 
     struct sockaddr_in addr;
@@ -15,7 +10,7 @@ void bind_socket_TCP(int *fd){
     addr.sin_port = htons(10101);
     //                           принимает соединения на этот порт на любом из
     // ip address                имеющихся в системе ip-адресов
-    addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    addr.sin_addr.s_addr = INADDR_ANY;
 
     //Снабдит сокет адресом ( идентификатор сокет )
     err_bind = bind(*fd, (struct sockaddr*)&addr, sizeof(addr));
