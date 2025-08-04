@@ -1,8 +1,11 @@
-#include "tcp_serv.h"
+#include <stdio.h>
+#include <netinet/in.h>
+#include <unistd.h>
 
-static void bind_socket_TCP(int *fd){
-    int err_bind;
+#include "socket_TCP.h"
 
+static int bind_socket_TCP(int *fd){
+    
     struct sockaddr_in addr;
     // addressing family
     addr.sin_family = AF_INET;
@@ -13,16 +16,19 @@ static void bind_socket_TCP(int *fd){
     addr.sin_addr.s_addr = INADDR_ANY;
 
     //Снабдит сокет адресом ( идентификатор сокет )
-    err_bind = bind(*fd, (struct sockaddr*)&addr, sizeof(addr));
+    int err_bind = bind(*fd, (struct sockaddr*)&addr, sizeof(addr));
     if ( err_bind == -1) {
-        printf("Не сработал bind \n");
-        exit(0);
+        fprintf(stderr, "not bind \n");
+        return 1;
     }
+
+    return 0;
 
     // printf("%i %i %i \n", addr.sin_family, addr.sin_port, addr.sin_addr.s_addr);
 }
 
 int main(){
+
     // файловый дескриптор сокета
     int fd;
 

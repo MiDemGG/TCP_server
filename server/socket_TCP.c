@@ -1,12 +1,16 @@
 #include "socket_TCP.h"
 
-void create_socket_TCP(int *fd){
+#include <stdio.h>
+#include <sys/socket.h>
+
+int create_socket_TCP(int *fd){
     // номер файлового дескриптора связанного с созданным сокетом
     *fd = socket(AF_INET, SOCK_STREAM, 0);
     if ( *fd == -1 ){
-        printf("Не создался сокет");
-        exit(0);
+        fprintf(stderr, "Socket not create");
+        return 1;
     }
 
-    printf("Файловый дескриптор сокета имеет номер %d \n", *fd);
+    printf("socket fd :  %d \n", *fd);
+    return 0;
 }

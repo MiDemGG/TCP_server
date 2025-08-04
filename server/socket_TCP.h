@@ -10,15 +10,19 @@
 всё, что не занимает памяти, или, иначе говоря, всё, что используется только во
 время компиляции и затем бесследно исчезает. ( типы переменных и макросы )
 */
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
 // защитные макросы ( sentry macros )
 #ifndef SOCKET_TCP_H_SENTRY
 #define SOCKET_TCP_H_SENTRY
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/socket.h>
+int create_socket_TCP(int *fd);
 
-void create_socket_TCP(int *fd);
+#ifdef __cplusplus
+}
+#endif
 
 #endif
